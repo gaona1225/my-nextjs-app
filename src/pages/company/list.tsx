@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/Link";
-import { Table, Spin, Alert, Space } from 'antd';
+import { Table, Spin, Alert, Space, Button } from 'antd';
+
 
 export default function List() {
     interface DataType {
@@ -72,17 +73,22 @@ export default function List() {
     }
 
     return (
-        <div>
+        <div style={{ padding: 24 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                <h2 style={{ margin: 0 }}>Company List</h2>
+                <Link href="/company/create">
+                    <Button type="primary">Create Company</Button>
+                </Link>
+            </div>
+
+            {alertFlag &&
+                <Alert style={{ marginBottom: 16 }} message={msg} type={alertType} closable={true} afterClose={handlerAfterClose} />}
+
             {loadFlag ? <Spin fullscreen={true} />
             : <Table
             columns={columns}
             dataSource={dataList}
             />}
-            {alertFlag
-            ?
-            <div style={{position: "fixed", top: 0, width: "90%", padding: "10px", zIndex: 10}}>
-                <Alert message={msg} type={alertType} closable={true} afterClose={handlerAfterClose}/>
-            </div> : null}
         </div>
     )
 }

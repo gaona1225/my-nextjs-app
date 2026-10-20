@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import { useState, useEffect } from "react";
-import { Form, Input, Button, Alert } from 'antd';
+import { Form, Input, Button, Alert, Space } from 'antd';
 
 export default function Create() {
     interface DataType {
@@ -81,9 +82,14 @@ export default function Create() {
             </Form.Item>
 
             <Form.Item label={null}>
-            <Button type="primary" htmlType="submit">
-                Submit
-            </Button>
+                <Space>
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                    <Link href="/company/list">
+                        <Button>View Company List</Button>
+                    </Link>
+                </Space>
             </Form.Item>
         </Form>
         {alertFlag
