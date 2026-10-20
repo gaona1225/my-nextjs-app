@@ -1,6 +1,5 @@
-import Link from 'next/link';
-import { useState, useEffect } from "react";
-import { Form, Input, Button, Alert, Space } from 'antd';
+
+import { Form, Input, Button, message } from 'antd';
 
 export default function Create() {
     interface DataType {
@@ -9,9 +8,6 @@ export default function Create() {
         age: number;
         address: string;
     }
-    const [alertFlag, setAlertFlag] = useState(false);
-    const [alertType, setAlertType] = useState('success');
-    const [msg, setMsg] = useState('');
     const [form] = Form.useForm();
     const onFinish = async(values: DataType) => {
         // const formData = new FormData();
@@ -24,20 +20,17 @@ export default function Create() {
             const resp = await fetch('/api/company', {method: 'POST', body: JSON.stringify(values)});
             if (resp.ok) {
                 let _data = await resp.json();
-                setMsg(_data.msg);
-                setAlertType(_data.type);
-                setAlertFlag(true);
+                message.success(_data.msg);
                 form.resetFields();
+            } else {
+                message.error('save fail')
             }
         } catch(e) {
             console.log('err:', e);
         }
     }
-    const handlerAfterClose = () => {
-        setAlertFlag(false);
-    }
     return (
-        <div>
+        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             <Form
                 name="basic"
                 form={form}
@@ -82,21 +75,11 @@ export default function Create() {
             </Form.Item>
 
             <Form.Item label={null}>
-                <Space>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                    <Link href="/company/list">
-                        <Button>View Company List</Button>
-                    </Link>
-                </Space>
+            <Button type="primary" htmlType="submit">
+                Submit
+            </Button>
             </Form.Item>
         </Form>
-        {alertFlag
-        ?
-        <div style={{position: "fixed", top: 0, width: "90%", padding: "10px", zIndex: 10}}>
-            <Alert message={msg} type={alertType} closable={true} afterClose={handlerAfterClose}/>
-        </div> : null}
     </div>
     )
 }

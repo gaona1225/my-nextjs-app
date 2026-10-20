@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Form, Input, Button, Alert, Spin } from 'antd';
+import { Form, Input, Button, Spin, message } from 'antd';
 
 export default function Modify() {
     interface DataType {
@@ -47,14 +47,17 @@ export default function Modify() {
             const resp = await fetch('/api/company', {method: 'PUT', body: JSON.stringify(values)});
             if (resp.ok) {
                 let _data = await resp.json();
+                message.success(_data.msg);
                 location.href = `/company/list`;
+            } else {
+                message.error('update fail')
             }
         } catch(e) {
             console.log('err:', e);
         }
     }
     return (
-        <div>
+        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             {loadFlag ? <Spin fullscreen={true} />
                 : <Form
                 name="basic"
@@ -81,7 +84,6 @@ export default function Modify() {
                 >
                 <Input placehoder = "company founder" />
             </Form.Item>
-
 
             <Form.Item
                 label="Year"

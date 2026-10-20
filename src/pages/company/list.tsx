@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/Link";
-import { Table, Spin, Alert, Space, Button } from 'antd';
-
+import { Table, Spin, Space, message, Popconfirm } from 'antd';
 
 export default function List() {
     interface DataType {
@@ -12,9 +11,6 @@ export default function List() {
     }
 
     const [loadFlag, setLoadFlag] = useState(true);
-    const [alertFlag, setAlertFlag] = useState(false);
-    const [alertType, setAlertType] = useState('success');
-    const [msg, setMsg] = useState('');
     const [dataList, setDataList] = useState();
 
     const getData = async () => {
@@ -39,10 +35,10 @@ export default function List() {
             let resp = await fetch(`/api/company?id=${row.key}`, {method: 'delete'});
             if (resp.ok) {
                 let _data = await resp.json();
-                setMsg(_data.msg);
-                setAlertType(_data.type);
-                setAlertFlag(true);
+                message.success(_data.msg);
                 getData();
+            } else {
+                message.error('delete fail')
             }
         } catch (e) {
             console.log('err:', e);
@@ -65,25 +61,22 @@ export default function List() {
         title: 'Action',
         dataIndex: '',
         key: 'x',
-        render: (_: any, record: DataType) => (<Space><Link href={`/company/modify?id=${record.key}`}>Edit</Link><a onClick={() => {handlerDelete(record)}}>Delete{record.dataIndex}</a></Space>),
+        render: (_: any, record: DataType) => 
+        (<Space><Link href={`/company/modify?id=${record.key}`}>Edit</Link>
+            <Popconfirm
+                title="Delete this company?"
+                description="This cannot be undone."
+                onConfirm={() => handlerDelete(record)}
+                okText="Delete"
+                cancelText="Cancel"
+            >
+                <a>Delete</a>
+            </Popconfirm>
+    </Space>),
     }];
 
-    const handlerAfterClose = () => {
-        setAlertFlag(false);
-    }
-
     return (
-        <div style={{ padding: 24 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                <h2 style={{ margin: 0 }}>Company List</h2>
-                <Link href="/company/create">
-                    <Button type="primary">Create Company</Button>
-                </Link>
-            </div>
-
-            {alertFlag &&
-                <Alert style={{ marginBottom: 16 }} message={msg} type={alertType} closable={true} afterClose={handlerAfterClose} />}
-
+        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
             {loadFlag ? <Spin fullscreen={true} />
             : <Table
             columns={columns}
