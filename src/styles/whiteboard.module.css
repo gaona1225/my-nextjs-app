@@ -1,0 +1,56 @@
+.container {
+    margin: 26px;
+    font-size: 14px;
+}
+
+.content {
+    margin-top: 16px;
+    background: #ececec;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.pmsg span {
+    margin-right: 12px;
+}
+
+.onlinelist {
+    display: flex;
+    gap: 12px;
+}
+
+.content span {
+    display: inline-block;
+}
+
+.content Button {
+    margin-top: 6px;
+    margin-right: 6px;
+    font-size: 12px;
+}
+
+.ullist {
+    display: flex;
+    margin-bottom: 6px;
+}
+
+.ullist p {
+    flex: 1;
+}
+
+.ullist span {
+    margin-right: 6px;
+}
+
+.ullist .septag {
+    margin: '0 6px';
+}
+
+.ullist .delBtn {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.ullist span.tag {
+    width:24px;
+}

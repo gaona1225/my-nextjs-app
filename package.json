@@ -6,16 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "server": "node server/socket.js",
+    "hserver": "node server/hocuspocus.js"
   },
   "dependencies": {
+    "@hocuspocus/provider": "2.15.x",
+    "@hocuspocus/server": "2.15.x",
     "antd": "^5.26.7",
     "mongoose": "^5.13.0",
     "next": "13.5.11",
     "query-string": "^9.2.2",
     "react": "^18",
     "react-dom": "^18",
-    "react-router-dom": "^7.7.1"
+    "react-router-dom": "^7.7.1",
+    "ws": "^8.23.0",
+    "y-websocket": "^1.5.4",
+    "yjs": "^13.6.33"
   },
   "devDependencies": {
     "@types/node": "^20",
